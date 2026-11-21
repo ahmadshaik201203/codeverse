@@ -1,0 +1,263 @@
+/**
+ * Sign In card — structure and interaction from Uiverse.io "swift-liger-76"
+ * by Smit-Prajapati (Smit Prajapati), MIT License.
+ *
+ * Original concept preserved: a rounded elevated card, a large heavy
+ * "Sign In" heading, stacked pill inputs whose inline borders light up on
+ * focus, a left-aligned small text action under the password field, a
+ * full-width pill submit button that scales on hover/press, a centred
+ * "Or Sign in with" row of circular social icons, and a tiny footnote.
+ *
+ * Recolor: the original blue/white/black palette and its blue gradient
+ * shadows are replaced with CodeVerse colours only —
+ * charcoal #252827, secondary #626966, ivory #F4F2ED, forest #536B58,
+ * sage #89978A (with low-alpha tints of those same five).
+ * No gradients other than the ivory card falloff, no neon glow.
+ * Error text uses the existing CodeVerse danger token so failures stay
+ * distinguishable from the neutral palette.
+ */
+.cv-signin {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  background: #f4f2ed;
+  border-radius: 40px;
+  padding: 28px 30px 24px;
+  border: 5px solid rgba(251, 250, 246, 0.92);
+  box-shadow: rgba(83, 107, 88, 0.3) 0 30px 30px -20px;
+}
+
+.cv-signin__heading {
+  text-align: center;
+  font-weight: 730;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #252827;
+}
+
+.cv-signin__subheading {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #626966;
+}
+
+.cv-signin__form {
+  margin-top: 18px;
+}
+
+.cv-signin__label {
+  display: block;
+  margin: 14px 0 6px 12px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #626966;
+}
+
+.cv-signin__field {
+  position: relative;
+}
+
+.cv-signin__input {
+  width: 100%;
+  background: #fbfaf6;
+  border: none;
+  font-weight: 500;
+  padding: 15px 20px;
+  border-radius: 20px;
+  font-size: 15px;
+  color: #252827;
+  box-shadow: rgba(137, 151, 138, 0.35) 0 10px 10px -5px;
+  border-inline: 2px solid transparent;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.cv-signin__input::placeholder {
+  color: #626966;
+}
+.cv-signin__input:focus {
+  outline: none;
+  border-inline: 2px solid #536b58;
+  background: #ffffff;
+  box-shadow: rgba(137, 151, 138, 0.45) 0 10px 10px -5px;
+}
+.cv-signin__input[aria-invalid='true'] {
+  border-inline: 2px solid var(--color-danger, #8c3b32);
+}
+.cv-signin__field--password .cv-signin__input {
+  padding-right: 52px;
+}
+
+.cv-signin__eye {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  translate: 0 -50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #626966;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+.cv-signin__eye:hover {
+  background: rgba(137, 151, 138, 0.22);
+  color: #252827;
+}
+.cv-signin__eye:focus-visible {
+  outline: 2px solid rgba(83, 107, 88, 0.65);
+  outline-offset: 1px;
+}
+
+.cv-signin__submit {
+  display: block;
+  width: 100%;
+  font-weight: 600;
+  font-size: 15px;
+  background: #536b58;
+  color: #f4f2ed;
+  padding-block: 15px;
+  margin: 20px auto 0;
+  border-radius: 20px;
+  box-shadow: rgba(83, 107, 88, 0.45) 0 20px 10px -15px;
+  border: none;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out, background-color 200ms ease-in-out;
+}
+.cv-signin__submit:hover:not(:disabled) {
+  transform: scale(1.03);
+  background: #4a5f50;
+  box-shadow: rgba(83, 107, 88, 0.45) 0 23px 10px -20px;
+}
+.cv-signin__submit:active:not(:disabled) {
+  transform: scale(0.95);
+  box-shadow: rgba(83, 107, 88, 0.45) 0 15px 10px -10px;
+}
+.cv-signin__submit:focus-visible {
+  outline: 2px solid #89978a;
+  outline-offset: 3px;
+}
+.cv-signin__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cv-signin__alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 4px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(140, 59, 50, 0.28);
+  background: var(--color-danger-tint, rgba(140, 59, 50, 0.09));
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--color-danger, #8c3b32);
+}
+
+.cv-signin__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(83, 107, 88, 0.28);
+  background: rgba(137, 151, 138, 0.16);
+  font-size: 12.5px;
+  color: #3f5245;
+}
+
+.cv-signin__social {
+  margin-top: 22px;
+}
+.cv-signin__social-title {
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #626966;
+}
+.cv-signin__social-accounts {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+.cv-signin__social-btn {
+  background: #536b58;
+  border: 5px solid #f4f2ed;
+  padding: 5px;
+  border-radius: 50%;
+  width: 44px;
+  aspect-ratio: 1;
+  display: grid;
+  place-content: center;
+  color: #f4f2ed;
+  cursor: pointer;
+  box-shadow: rgba(83, 107, 88, 0.45) 0 12px 10px -8px;
+  transition: transform 200ms ease-in-out, background-color 200ms ease-in-out;
+}
+.cv-signin__social-btn:hover:not(:disabled) {
+  transform: scale(1.2);
+  background: #4a5f50;
+}
+.cv-signin__social-btn:active:not(:disabled) {
+  transform: scale(0.9);
+}
+.cv-signin__social-btn:focus-visible {
+  outline: 2px solid #89978a;
+  outline-offset: 2px;
+}
+.cv-signin__social-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.cv-signin__social-btn[aria-expanded='true'] {
+  background: #89978a;
+  box-shadow: inset 0 0 0 1px rgba(37, 40, 39, 0.12);
+}
+
+.cv-signin__phone {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(37, 40, 39, 0.12);
+}
+
+@media (max-width: 420px) {
+  .cv-signin {
+    border-radius: 32px;
+    padding: 24px 20px 20px;
+    border-width: 4px;
+  }
+  .cv-signin__heading {
+    font-size: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-signin__submit,
+  .cv-signin__social-btn,
+  .cv-signin__input,
+  .cv-signin__eye {
+    transition-duration: 0.01ms;
+  }
+  .cv-signin__submit:hover:not(:disabled),
+  .cv-signin__submit:active:not(:disabled),
+  .cv-signin__social-btn:hover:not(:disabled),
+  .cv-signin__social-btn:active:not(:disabled) {
+    transform: none;
+  }
+}

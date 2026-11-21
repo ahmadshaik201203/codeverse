@@ -1,0 +1,483 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * CodeVerse design tokens
+ * ---------------------------------------------------------------------------
+ * Layer 1 — primitives: raw ink / ivory / forest / sage values.
+ * Layer 2 — semantic: text, surface, border, accent, focus, elevation.
+ * Layer 3 — component: card, control, background veils.
+ * Components consume semantic tokens only, so the system can be re-themed
+ * without touching markup.
+ */
+@layer base {
+  :root {
+    /* Primitive */
+    --ink-900: #252827;
+    --ink-700: #3c4340;
+    --ink-500: #5b625e;
+    --ink-300: #656c68;
+
+    --ivory-50: #fbfaf6;
+    --ivory-100: #f4f2ed;
+    --ivory-200: #e9e5db;
+    --ivory-300: #dcd7ca;
+
+    --forest-700: #3f5245;
+    --forest-600: #4a5f50;
+    --forest-500: #536b58;
+    --forest-400: #6e8472;
+
+    --sage-500: #89978a;
+    --sage-300: #a9b3a7;
+    --sage-200: #cbd2c6;
+    --sage-100: #edefe9;
+
+    /* Semantic — text */
+    --color-text: var(--ink-900);
+    --color-text-soft: var(--ink-700);
+    --color-text-muted: var(--ink-500);
+    --color-text-inverse: var(--ivory-50);
+
+    /* Semantic — surfaces (translucent so the landscape stays present) */
+    --color-surface: rgba(251, 250, 246, 0.78);
+    --color-surface-strong: rgba(251, 250, 246, 0.93);
+    --color-surface-quiet: rgba(251, 250, 246, 0.56);
+    --color-surface-sunken: rgba(233, 229, 219, 0.55);
+
+    /* Semantic — lines & accents */
+    --color-border: rgba(37, 40, 39, 0.12);
+    --color-border-strong: rgba(37, 40, 39, 0.22);
+    --color-border-inverse: rgba(244, 242, 237, 0.28);
+    --color-accent: var(--forest-500);
+    --color-accent-deep: var(--forest-700);
+    --color-accent-tint: rgba(83, 107, 88, 0.1);
+    --color-focus: var(--forest-600);
+
+    /* Semantic — feedback */
+    --color-danger: #8c3b32;
+    --color-danger-tint: rgba(140, 59, 50, 0.09);
+    --color-warning: #8a6a2f;
+    --color-positive: #3f6b4f;
+
+    /* Component tokens */
+    --radius-control: 10px;
+    --radius-card: 18px;
+    --shadow-card: 0 1px 2px rgba(37, 40, 39, 0.04), 0 14px 34px -20px rgba(37, 40, 39, 0.35);
+    --shadow-lift: 0 2px 4px rgba(37, 40, 39, 0.05), 0 28px 52px -28px rgba(37, 40, 39, 0.45);
+
+    /* Background veils — tuned for WCAG-AA charcoal text over the artwork */
+    --veil-top: rgba(248, 246, 240, 0.86);
+    --veil-mid: rgba(248, 246, 240, 0.62);
+    --veil-bottom: rgba(248, 246, 240, 0.3);
+  }
+
+  html {
+    background-color: var(--ivory-100);
+    -webkit-text-size-adjust: 100%;
+    /* Smooth scrolling is owned by Lenis (components/SmoothScroll.tsx);
+       a CSS smooth-behaviour here would double-animate anchor jumps. */
+    scrollbar-color: var(--sage-300) transparent;
+  }
+
+  /* Global typography: Bodoni Moda everywhere. The legacy --font-sans /
+     --font-serif / --font-mono variables are aliased to it so any existing
+     utility class or inline var() reference resolves to Bodoni Moda. */
+  :root {
+    --font-sans: var(--font-bodoni);
+    --font-serif: var(--font-bodoni);
+    --font-mono: var(--font-bodoni);
+  }
+
+  /* The fixed artwork layer paints the page; shells stay transparent. */
+  body {
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-bodoni), "Bodoni Moda", serif;
+    /* Body copy sits at 500: Bodoni Moda's hairlines are thin at 400 on a
+       veiled photograph, which made long paragraphs read as light grey. */
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-text);
+    font-family: var(--font-bodoni), "Bodoni Moda", serif;
+    text-wrap: balance;
+  }
+
+  /* Weight hierarchy — Bodoni Moda is a variable font (wght 400-900), so
+     these intermediate values are real interpolations, not synthetics.
+     Page title 730 · section heading 680 · card heading 650 · minor 620. */
+  h1 {
+    font-weight: 730;
+  }
+  h2 {
+    font-weight: 680;
+  }
+  h3 {
+    font-weight: 650;
+  }
+  h4 {
+    font-weight: 620;
+  }
+
+  p {
+    text-wrap: pretty;
+    font-weight: 500;
+  }
+
+
+  ::selection {
+    background: rgba(83, 107, 88, 0.22);
+    color: var(--ink-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* Native inputs inherit the editorial type instead of the OS default. */
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* `font: inherit` resets font-weight, so the interactive hierarchy is
+     re-applied after it: navigation/buttons 600, form fields 500. */
+  nav a,
+  nav button,
+  button {
+    font-weight: 600;
+  }
+
+  input,
+  textarea,
+  select {
+    font-weight: 500;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--sage-300);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* One typeface, and it is never slanted (design skill B1). */
+  em,
+  i {
+    font-style: normal;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/**
+ * Fixed global landscape (rendered once, in app/layout.tsx).
+ * The artwork is anchored to the viewport so only content scrolls; a soft
+ * ivory veil above it lifts text contrast without darkening the painting.
+ */
+.global-background {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background-color: #e7e3d8;
+  /* WebP rendition of the same artwork (428 kB PNG → ~18 kB WebP). */
+  background-image: url("/backgrounds/codeverse-mountains.webp");
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  /* No filter on this layer: a filter forces a full-viewport repaint on
+     every scroll frame. The ivory veil below already carries the lift. */
+}
+
+.global-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      var(--veil-top) 0%,
+      rgba(248, 246, 240, 0.74) 26%,
+      var(--veil-mid) 55%,
+      var(--veil-bottom) 100%
+    ),
+    radial-gradient(120% 70% at 50% 0%, rgba(251, 250, 246, 0.5), rgba(251, 250, 246, 0) 62%);
+}
+
+/* Below ~640px the painting is cropped hard by `cover`; keep the peak ridge
+   in frame and deepen the veil slightly so small text stays AA-legible. */
+@media (max-width: 640px) {
+  .global-background {
+    background-position: 42% top;
+  }
+  .global-background::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(248, 246, 240, 0.92) 0%,
+        rgba(248, 246, 240, 0.8) 45%,
+        rgba(248, 246, 240, 0.46) 100%
+      );
+  }
+}
+
+@layer components {
+  /* Surfaces — translucent paper over the landscape. */
+  .surface {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    -webkit-backdrop-filter: blur(7px);
+    backdrop-filter: blur(7px);
+  }
+
+  .surface-strong {
+    background-color: var(--color-surface-strong);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
+  }
+
+  .surface-quiet {
+    background-color: var(--color-surface-quiet);
+    border: 1px solid var(--color-border);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+
+  .hairline {
+    border-color: var(--color-border);
+  }
+
+  /* Editorial eyebrow label. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--forest-500);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.55;
+  }
+
+  .eyebrow-center::after {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.55;
+  }
+
+  .link-quiet {
+    color: var(--ink-700);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    transition: color 180ms ease;
+  }
+  .link-quiet:hover {
+    color: var(--forest-700);
+    text-decoration-line: underline;
+  }
+
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: -100%;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-control);
+    background: var(--forest-500);
+    color: var(--ivory-50);
+    font-size: 0.875rem;
+    transition: top 150ms ease;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /*
+   * Neumorphic input — derived from Uiverse.io "bitter-donkey-79" by
+   * garerim (Matheo GARERI), MIT License. Original: a pill input with a
+   * deep inset shadow (`inset 2px 5px 10px`). Recolored to CodeVerse:
+   * warm ivory-deep ground, charcoal inset shadow, ivory highlight,
+   * forest focus ring, danger invalid state. Placeholder uses the
+   * secondary text colour (#626966) so it stays AA-legible.
+   */
+  .control {
+    width: 100%;
+    border-radius: 9999px;
+    border: 1px solid rgba(37, 40, 39, 0.1);
+    background-color: #ece9df;
+    box-shadow:
+      inset 2px 5px 10px rgba(37, 40, 39, 0.18),
+      inset -2px -2px 6px rgba(251, 250, 246, 0.95);
+    padding: 0.6875rem 1.25rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+  textarea.control {
+    border-radius: var(--radius-card);
+    box-shadow:
+      inset 2px 5px 10px rgba(37, 40, 39, 0.14),
+      inset -2px -2px 6px rgba(251, 250, 246, 0.9);
+  }
+  .control::placeholder {
+    color: var(--ink-500);
+  }
+  .control:hover {
+    border-color: rgba(37, 40, 39, 0.22);
+  }
+  .control:focus {
+    outline: none;
+    border-color: var(--forest-500);
+    background-color: #f0ede4;
+    box-shadow:
+      inset 2px 5px 10px rgba(37, 40, 39, 0.16),
+      inset -2px -2px 6px rgba(251, 250, 246, 0.95),
+      0 0 0 3px rgba(83, 107, 88, 0.22);
+  }
+  .control[aria-invalid="true"] {
+    border-color: var(--color-danger);
+    box-shadow:
+      inset 2px 5px 10px rgba(37, 40, 39, 0.16),
+      0 0 0 3px var(--color-danger-tint);
+  }
+
+  /*
+   * Reveal — CSS-only entrance for landing sections.
+   * Content is visible by default. The hidden state is applied by
+   * components/ui/Reveal.tsx only after mount and only below the fold, so a
+   * blocked or failed script can never leave a section invisible.
+   */
+  .reveal[data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance, 32px));
+  }
+  .reveal[data-reveal="in"] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+  }
+
+  /*
+   * Tagline reveal (design skill B11): the statement starts dimmed and each
+   * word resolves in reading order as it crosses the trigger line.
+   */
+  .tagline-word {
+    opacity: 1;
+    transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Dimming is armed by script only, so a failed script leaves the text solid. */
+  .tagline-word[data-armed="true"] {
+    opacity: 0.32;
+  }
+  .tagline-word[data-lit="true"] {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tagline-word {
+      opacity: 1;
+      transition: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal[data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* Reduce-motion preference (Settings > Preferences). Mirrors the
+     media-query block below so the in-app switch has the same effect. */
+  [data-motion="reduced"] *,
+  [data-motion="reduced"] *::before,
+  [data-motion="reduced"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Mobile menu links arrive one after another (design skill B7). */
+  .nav-item-enter {
+    opacity: 0;
+    animation: nav-item-enter 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes nav-item-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
